@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 指定全局国际化资源文件 -->
+	<constant name="struts.custom.i18n.resources" value="plan" />
+	<constant name="struts.il8n.encoding" value="UTF-8" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="true" />
+	
+	<package name="user" namespace="/user" extends="struts-default">
+		<action name="changeLanguage" class="userAction" method="changeLanguage">
+			<result name="success">../index.jsp</result>
+		</action>
+		<action name="login" class="userAction" method="login">
+			<result name="success">/report/report_add.jsp</result>
+			<result name="error">/user/login.jsp</result>
+		</action>
+		<action name="logout" class="userAction" method="logout">
+			<result name="success">../index.jsp</result>
+		</action>
+	</package>
+	<package name="report" namespace="/report" extends="struts-default">
+		<action name="addReport" class="reportAction" method="addReport">
+			<result name="success" type="redirect">report/showReport</result>
+		</action>
+		<action name="showReport" class="reportAction" method="showReport">
+			<result name="success">/report/report_show.jsp</result>
+			<result name="error">/report/report_no.jsp</result>
+		</action>
+	</package>
+	<package name="task" namespace="/task" extends="struts-default">
+		<action name="addTask" class="taskAction" method="addTask">
+			<result name="success" type="redirect">task/showTask</result>
+		</action>
+		<action name="showTask" class="taskAction" method="showTask">
+			<result name="success">/task/task_show.jsp</result>
+			<result name="error">/task/task_no.jsp</result>
+		</action>
+		<action name="preModify" class="taskAction" method="preModify">
+			<result name="success">/task/task_modify.jsp</result>
+			<result name="error">/task/task_no.jsp</result>
+		</action>
+		<action name="modify" class="taskAction" method="modify">
+			<result name="success" type="redirect">task/showTask</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+*{
+	margin: 0px;
+	padding: 0px;
+}
+#content{
+	border:1px solid red;
+	float:left;
+	margin:100px 0 40px 40px;
+	width:900px;
+}
+#content table{
+	width:100%;
+	border:1px solid black;
+}
+#content table tr{
+	height:30px;
+}
+#content table tr th,td{
+	border:1px solid green;
+}

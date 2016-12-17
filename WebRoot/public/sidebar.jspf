@@ -1,0 +1,10 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s" %>
+<div id="sidebar">
+	<ul>
+		<li><a href="report/report_add.jsp"><s:text name="addreport"></s:text></a><li>
+		<li><a href="report/showReport"><s:text name="showreport"></s:text></a><li>
+		<li><a href="task/task_add.jsp"><s:text name="addtask"></s:text></a><li>
+		<li><a href="task/showTask"><s:text name="showtask"></s:text></a><li>
+	</ul>
+</div>

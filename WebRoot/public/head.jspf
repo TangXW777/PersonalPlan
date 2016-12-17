@@ -1,0 +1,33 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s" %>
+<script type="text/javascript" src="js/jquery-2.2.3.js"></script>
+<div id="head">
+	<div id="international">
+		<!-- 下拉框 -->
+   	  	<div id="nav-menu">
+		<ul class="menu">	
+			<li class="stmenu">
+				<h3><a href="#" class="list"><span><s:text name="choose.language"></s:text></span></a></h3>   
+				<ul class="children" style="display:none">    
+					<li><h3><a href="user/changeLanguage?request_locale=en_US"><s:text name="language.english"></s:text></a></h3></li>
+					<li><h3><a href="user/changeLanguage?request_locale=zh_CN"><s:text name="language.chinese"></s:text></a></h3></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	</div>
+	<div id="loginout">
+		<p><a href="user/logout"><s:text name="logout"></s:text></a></p>
+	</div>
+</div>
+
+<!-- 下拉框 -->
+<script type="text/javascript">
+$('#nav-menu .menu > li').hover(function(){
+	$(this).find('.children').animate({ opacity:'show', height:'show' },200);
+	$(this).find('.list').addClass('navhover');
+}, function() {
+	$('.children').stop(true,true).hide();
+	$('.list').removeClass('navhover');
+});
+</script>

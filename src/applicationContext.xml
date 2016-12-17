@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	<!-- 导入数据库配置资源文件 -->
+	<context:property-placeholder location="classpath:db.properties"/>
+	
+	<!-- 配置C3P0数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${DB_DRIVER}"></property>
+		<property name="jdbcUrl" value="${DB_URL}"></property>
+		<property name="user" value="${DB_USERNAME}"></property>
+		<property name="password" value="${DB_PASSWORD}"></property>
+		<property name="initialPoolSize" value="${DB_INITPOOLSIZE}"></property>
+		<property name="minPoolSize" value="${DB_MINPOOLSIZE}"></property>
+		<property name="maxPoolSize" value="${DB_MAXPOOLSIZE}"></property>
+	</bean>
+	
+	<!-- 配置sessionFactory,可以注入所有的bean -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+		<property name="annotatedClasses">
+			<list>
+				<!-- 列举所有的PO类 -->
+				<value>com.tang.domain.User</value>
+				<value>com.tang.domain.Report</value>
+				<value>com.tang.domain.Task</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 配置Spring声明式事务 -->
+	<!-- 1.配置hibernate事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 2.配置事务属性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 所有get开头的凡是都是只读 -->
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 3.配置事务切入点 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.tang.service.*.*(..))" id="txPoincut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPoincut"/>
+	</aop:config>
+	
+</beans>
